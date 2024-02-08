@@ -1,88 +1,60 @@
-"""
-   Filename: procedural_resale_shop.py
-Description: an example of procedural code to run a small computer resale shop,
-             part of A2: Object-ification, CSC120: Object-Oriented Programming
-             as taught at Smith College in Spring 2024. Based on an example by Sami Islam.
-     Author: R. Jordan Crouser (@jcrouser)
-       Date: 1 February 2024
-       
-       Note: YOU DO NOT NEED TO MODIFY THIS FILE
-"""
-# Import a few useful containers from the typing module
-from typing import Dict, Optional
+# What attributes will it need?
+#name class and import computer
+#buy, price, sell, inventory, update, return FALSE when computer not in inventory
+    # How will you set up your constructor?
+#give initial conditions with empty inventory 
+    # Remember: in python, all constructors have the same name (__init__)
+  # You'll remove this when you fill out your constructor
 
-""" inventory: a dictionary where we'll store our inventory
-    The key is an int representing the item number
-    The value is another dictionary containing information about the machine
-"""
-inventory : Dict[int, Dict] = {}
+    # What methods will you need?
+#buy, price, sell, inventory, update, return FALSE when computer not in inventory
 
-itemID = 0 # We'll increment this every time we add a new item 
-           # so that we always have a new value for the itemID
-
-"""
-Takes in a Dict containing all the information about a computer,
-adds it to the inventory, returns the assigned item_id
-"""
-def buy(computer: Dict):
-    global itemID
-    itemID += 1 # increment itemID
-    inventory[itemID] = computer
-    return itemID
-
-"""
-Takes in an item_id and a new price, updates the price of the associated
-computer if it is the inventory, prints error message otherwise
-"""
-def update_price(item_id: int, new_price: int):
-    if item_id in inventory:
-        inventory[item_id]["price"] = new_price
-    else:
-        print("Item", item_id, "not found. Cannot update price.")
-
-"""
-Takes in an item_id, removes the associated computer if it is the inventory, 
-prints error message otherwise
-"""
-def sell(item_id: int):
-    if item_id in inventory:
-        del inventory[item_id]
-        print("Item", item_id, "sold!")
-    else: 
-        print("Item", item_id, "not found. Please select another item to sell.")
-
-"""
-prints all the items in the inventory (if it isn't empty), prints error otherwise
-"""
-def print_inventory():
-    # If the inventory is not empty
-    if inventory:
-        # For each item
-        for item_id in inventory:
-            # Print its details
-            print(f'Item ID: {item_id} : {inventory[item_id]}')
-    else:
-        print("No inventory to display.")
-
-def refurbish(item_id: int, new_os: Optional[str] = None):
-    if item_id in inventory:
-        computer = inventory[item_id] # locate the computer
-        if int(computer["year_made"]) < 2000:
-            computer["price"] = 0 # too old to sell, donation only
-        elif int(computer["year_made"]) < 2012:
-            computer["price"] = 250 # heavily-discounted price on machines 10+ years old
-        elif int(computer["year_made"]) < 2018:
-            computer["price"] = 550 # discounted price on machines 4-to-10 year old machines
+import computer
+#make resale shop
+class ResaleShop:
+    def __init__(self):
+        self.inventory = {}
+        self.item_id = 0
+#create a function to buy computer
+    def buy(self, computer):
+        self.item_id += 1
+        self.inventory[self.item_id] = computer
+        return self.item_id
+#create function to update price of computer
+    def update_price(self, item_id, new_price):
+        if item_id in self.inventory:
+            self.inventory[item_id].update_price(new_price)
         else:
-            computer["price"] = 1000 # recent stuff
+            print("Item", item_id, "not found. Cannot update price.")
+#sell computer
+    def sell(self, item_id):
+        if item_id in self.inventory:
+            del self.inventory[item_id]
+            print("Item", item_id, "sold!")
+        else:
+            print("Item", item_id, "not found. Please select another item to sell.")
+#return inventory
+    def print_inventory(self):
+        if self.inventory:
+            for item_id, computer in self.inventory.items():
+                print(f'Item ID: {item_id} : {computer.__dict__}')
+        else:
+            print("No inventory to display.")
+#update computer with new information
+    def refurbish(self, item_id, new_os=None):
+        if item_id in self.inventory:
+            computer = self.inventory[item_id]
+            if computer.year_made < 2000:
+                computer.update_price(0)
+            elif computer.year_made < 2012:
+                computer.update_price(250)
+            elif computer.year_made < 2018:
+                computer.update_price(550)
+            else:
+                computer.update_price(1000)
+#indicate when the computer isn't in inventory
+            if new_os is not None:
+                computer.update_os(new_os)
+        else:
+            print("Item", item_id, "not found. Please select another item to refurbish.")
 
-        if new_os is not None:
-            computer["operating_system"] = new_os # update details after installing new OS
-    else:
-        print("Item", item_id, "not found. Please select another item to refurbish.")
-
-def main():
-    buy({"description":"2019 MacBook Pro", "processor_type":"Intel", "hard_drive_capacity":256, "memory":16, "operating_system":"High Sierra", "year_made":2019, "price":1000})
-    print_inventory()
-
-main()
