@@ -1,3 +1,4 @@
 Use this file to record your reflection on this assignment. 
 
 What worked, what didn't, what advice would you give someone taking this course in the future?
+Start on it early. The coding part within python was honestly the easiest part for me, it was a struggle to remember python from high school but I figured it out with some debuggers. Getting it updated and forked/published into GitHub is still a strugle and I'm not entirely sure that I did this correctly. I ran into a few issues with the names that I gave things and I had to double check item names and method names because the difference between computer and Computer was really messing up my system quite a bit in the main function.
