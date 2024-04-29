@@ -12,8 +12,11 @@
 #update_OS system
 
 #identifies computer item
-class computer:  
+class Computer:  
+    """A class representing a computer."""
+
     def __init__(self, description, processor_type, hard_drive_capacity, memory, operating_system, year_made, price):
+        """Initialize a computer with its attributes."""
         self.description = description
         self.processor_type = processor_type
         self.hard_drive_capacity = hard_drive_capacity
@@ -22,9 +25,10 @@ class computer:
         self.year_made = year_made
         self.price = price
 
-#creates ability to update price and system originally defined
     def update_price(self, new_price):
+        """Update the price of the computer."""
         self.price = new_price
 
     def update_os(self, new_os):
+        """Update the operating system of the computer."""
         self.operating_system = new_os
